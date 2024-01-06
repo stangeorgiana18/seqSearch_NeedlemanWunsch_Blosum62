@@ -2,6 +2,9 @@ import numpy as np
 
 def NeedlemanWunschAlgorithm(seq1, seq2):
 
+    seq1 = seq1.replace("\n","")
+    seq2 = seq2.replace("\n","")
+    
     seq1_length = len(seq1)
     seq2_length = len(seq2)
 
@@ -166,7 +169,6 @@ for i in range(len(result1)):
     print(result1[i:(i+1)])
     print(result2[i:(i+1)])
     print("\n")
-
 
 for i in range(len(result1)):
     print(result1[i], end='')
