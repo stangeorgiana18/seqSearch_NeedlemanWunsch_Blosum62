@@ -4,7 +4,7 @@ def NeedlemanWunschAlgorithm(seq1, seq2):
 
     seq1 = seq1.replace("\n","")
     seq2 = seq2.replace("\n","")
-    
+
     seq1_length = len(seq1)
     seq2_length = len(seq2)
 
@@ -12,7 +12,7 @@ def NeedlemanWunschAlgorithm(seq1, seq2):
     mainMatrix = np.zeros((seq1_length+1, seq2_length+1))
     matchCheckerMatrix = np.zeros((seq1_length, seq2_length))
 
-    # scores for match, mismatch and gap - left or above 
+    # scores for match, mismatch and gap - left or above
     match_add = 1
     mismatch_substract = -1
     gap = -2
@@ -165,15 +165,56 @@ result1, result2 = NeedlemanWunschAlgorithm(genes, transcriptGenes)
 # print(result1)
 # print(result2)
 
-for i in range(len(result1)):
-    print(result1[i:(i+1)])
-    print(result2[i:(i+1)])
-    print("\n")
+def findIntronsExonsSeq(result1, result2):
+    exonSequences = []
+    intronSequences = []
+    if len(result1) == len(result2):
+        i = 0
+        while i < len(result1):
+            if result1[i] == result2[i]:
 
-for i in range(len(result1)):
-    print(result1[i], end='')
-print("\n")
+                # strings initialisation for the exon sequences
+                exonSeq1 = ""
+                exonSeq2 = ""
+                
+                # add the same consecutive nucleotides
+                j = i
+                while j < len(result1) and result1[j] == result2[j]:
+                    exonSeq1 += result1[j]
+                    exonSeq2 += result2[j]
+                    j += 1
+                
+                # add the exon sequences to the list
+                exonSequences.append((exonSeq1, exonSeq2))
+                
+                # skip the found sequence
+                i = j
+                
+            else:
+                intronSeq1 = ""
+                intronSeq2 = ""
 
-for i in range(len(result2)):
-    print(result2[i], end='')
-print("\n")
+                j = i
+                while j < len(result1) and result1[j] != result2[j]:
+                    intronSeq1 += result1[j]
+                    intronSeq2 += result2[j]
+                    j += 1
+                
+                intronSequences.append((intronSeq1, intronSeq2))
+                
+                i = j
+    
+    return exonSequences, intronSequences
+    
+def printSequences(sequences, category):
+    for seq1, seq2 in sequences:
+        print(category + ":")
+        print("Result1: " + seq1)
+        print("Result2: " + seq2)
+        print()
+
+exons, introns = findIntronsExonsSeq(result1, result2)
+print("Exons: ")
+printSequences(exons, "Exon")
+print("Introns: ")
+printSequences(introns, "Intron")
