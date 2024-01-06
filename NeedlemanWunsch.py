@@ -158,5 +158,20 @@ TACTGGTTTTACTTGTTTGAAAAAAAAAAAAAAAAAA"""
 
 result1, result2 = NeedlemanWunschAlgorithm(genes, transcriptGenes)
 
-print(result1)
-print(result2)
+# print the 2 sequences aligned 
+# print(result1)
+# print(result2)
+
+for i in range(len(result1)):
+    print(result1[i:(i+1)])
+    print(result2[i:(i+1)])
+    print("\n")
+
+
+for i in range(len(result1)):
+    print(result1[i], end='')
+print("\n")
+
+for i in range(len(result2)):
+    print(result2[i], end='')
+print("\n")
